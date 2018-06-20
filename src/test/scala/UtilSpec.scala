@@ -92,7 +92,10 @@ class UtilSpec extends org.specs2.mutable.Specification {
     // ---
 
     "resolve SRV record for _imaps._tcp at gmail.com" in {
-      srvRecords("gmail.com", "_imaps._tcp") must_=== List("imap.gmail.com")
+      reactivemongo.util.srvRecords(
+        name = "gmail.com",
+        srvPrefix = "_imaps._tcp") must_=== List("imap.gmail.com")
+
     } tag "srvRecords"
 
     "resolve TXT record for gmail.com" in {
