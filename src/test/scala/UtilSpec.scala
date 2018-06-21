@@ -1,4 +1,8 @@
-class UtilSpec extends org.specs2.mutable.Specification {
+import org.specs2.concurrent.ExecutionEnv
+
+class UtilSpec(implicit ee: ExecutionEnv)
+  extends org.specs2.mutable.Specification {
+
   "Utilities" title
 
   import reactivemongo.util.withContent
@@ -31,13 +35,17 @@ class UtilSpec extends org.specs2.mutable.Specification {
     "resolve SRV record for _imaps._tcp at gmail.com" in {
       reactivemongo.util.srvRecords(
         name = "gmail.com",
-        srvPrefix = "_imaps._tcp") must_=== List("imap.gmail.com")
+        srvPrefix = "_imaps._tcp") must beTypedEqualTo(List(
+        "imap.gmail.com" -> 993)).
+        await
 
     } tag "srvRecords"
 
     "resolve TXT record for gmail.com" in {
       reactivemongo.util.txtRecords(
-        "gmail.com") must_=== List("v=spf1 redirect=_spf.google.com")
+        "gmail.com") must beTypedEqualTo(
+          List("v=spf1 redirect=_spf.google.com")).await
+
     } tag "txtRecords"
   }
 }
