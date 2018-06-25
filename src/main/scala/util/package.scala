@@ -21,6 +21,8 @@ import java.net.URI
 
 import scala.util.control.NonFatal
 
+import scala.collection.immutable.ListSet
+
 package object util {
   /** Makes an option of the value matching the condition. */
   def option[T](cond: => Boolean, value: => T): Option[T] =
@@ -133,7 +135,7 @@ package object util {
     name: String,
     timeout: FiniteDuration = dnsTimeout)(
     implicit
-    ec: ExecutionContext): Future[List[String]] = Future {
+    ec: ExecutionContext): Future[ListSet[String]] = Future {
 
     val lookup = new Lookup(name, Type.TXT)
 
