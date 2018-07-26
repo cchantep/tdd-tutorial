@@ -46,7 +46,7 @@ libraryDependencies ++= {
   val slf4jVer = "1.7.12"
 
   Seq(
-    // Add new dependencies there
+    "dnsjava" % "dnsjava" % "2.1.8",
     "org.slf4j" % "slf4j-api" % slf4jVer % Provided,
     "org.slf4j" % "slf4j-simple" % slf4jVer % Test,
     "org.specs2" %% "specs2-core" % "4.3.2" % Test
