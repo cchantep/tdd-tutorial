@@ -71,7 +71,24 @@ class UtilSpec extends org.specs2.mutable.Specification {
 
     def txtRecords(
       name: String,
-      resolver: Resolver = defaultResolver): List[String] = ???
+      resolver: Resolver = defaultResolver): List[String] = {
+
+      val lookup = new Lookup(name, Type.TXT)
+
+      lookup.setResolver(resolver)
+
+      lookup.run().map { rec =>
+        val data = rec.rdataToString
+        val stripped = data.stripPrefix("\"")
+
+        if (stripped == data) {
+          data
+        } else {
+          stripped.stripSuffix("\"")
+        }
+      }.toList
+    }
+
     // ---
 
     "resolve SRV record for _imaps._tcp at gmail.com" in {
